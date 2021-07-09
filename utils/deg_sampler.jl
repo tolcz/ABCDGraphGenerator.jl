@@ -1,4 +1,4 @@
-using ABCDGraphGenerator
+using ABCDeGraphGenerator
 using Random
 
 @info "Usage: julia deg_sampler.jl filename τ₁ d_min d_max n max_iter [seed]"
@@ -12,8 +12,8 @@ n = parse(Int, ARGS[5])
 max_iter = parse(Int, ARGS[6])
 length(ARGS) == 7 && Random.seed!(parse(Int, ARGS[7]))
 
-@info "Expected value of degree: $(ABCDGraphGenerator.get_ev(τ₁, d_min, d_max))"
+@info "Expected value of degree: $(ABCDeGraphGenerator.get_ev(τ₁, d_min, d_max))"
 
-degs = ABCDGraphGenerator.sample_degrees(τ₁, d_min, d_max, n, max_iter)
+degs = ABCDeGraphGenerator.sample_degrees(τ₁, d_min, d_max, n, max_iter)
 
 open(io -> foreach(d -> println(io, d), degs), filename, "w")

@@ -1,5 +1,5 @@
 using Pkg
-using ABCDGraphGenerator
+using ABCDeGraphGenerator
 using Random
 
 @info "Usage: julia abcd_sampler.jl config_filename"
@@ -21,23 +21,23 @@ n = parse(Int, conf["n"])
 d_min = parse(Int, conf["d_min"])
 d_max = parse(Int, conf["d_max"])
 d_max_iter = parse(Int, conf["d_max_iter"])
-@info "Expected value of degree: $(ABCDGraphGenerator.get_ev(τ₁, d_min, d_max))"
-degs = ABCDGraphGenerator.sample_degrees(τ₁, d_min, d_max, n, d_max_iter)
+@info "Expected value of degree: $(ABCDeGraphGenerator.get_ev(τ₁, d_min, d_max))"
+degs = ABCDeGraphGenerator.sample_degrees(τ₁, d_min, d_max, n, d_max_iter)
 open(io -> foreach(d -> println(io, d), degs), conf["degreefile"], "w")
 
 τ₂ = parse(Float64, conf["t2"])
 c_min = parse(Int, conf["c_min"])
 c_max = parse(Int, conf["c_max"])
 c_max_iter = parse(Int, conf["c_max_iter"])
-@info "Expected value of community size: $(ABCDGraphGenerator.get_ev(τ₂, c_min, c_max))"
-coms = ABCDGraphGenerator.sample_communities(τ₂, c_min, c_max, n, c_max_iter)
+@info "Expected value of community size: $(ABCDeGraphGenerator.get_ev(τ₂, c_min, c_max))"
+coms = ABCDeGraphGenerator.sample_communities(τ₂, c_min, c_max, n, c_max_iter)
 open(io -> foreach(d -> println(io, d), coms), conf["communitysizesfile"], "w")
 
 isCL = parse(Bool, conf["isCL"])
 islocal = haskey(conf, "islocal") ? parse(Bool, conf["islocal"]) : false
 
-p = ABCDGraphGenerator.ABCDParams(degs, coms, μ, ξ, isCL, islocal)
-edges, clusters = ABCDGraphGenerator.gen_graph(p)
+p = ABCDeGraphGenerator.ABCDParams(degs, coms, μ, ξ, isCL, islocal)
+edges, clusters = ABCDeGraphGenerator.gen_graph(p)
 open(conf["networkfile"], "w") do io
     for (a, b) in sort!(collect(edges))
         println(io, a, "\t", b)

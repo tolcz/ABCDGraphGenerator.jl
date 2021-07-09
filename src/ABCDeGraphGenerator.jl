@@ -1,4 +1,4 @@
-module ABCDGraphGenerator
+module ABCDeGraphGenerator
 
 using Random
 using StatsBase

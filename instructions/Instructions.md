@@ -8,7 +8,7 @@
 3. run `properties-mixings.ipynb` Jupyter Notebook
 
 ### For ABCD plots
-1. Install ABCD generator following instructions at https://github.com/bkamins/ABCDGraphGenerator.jl
+1. Install ABCD generator following instructions at https://github.com/tolcz/ABCDeGraphGenerator.jl
 2. run `julia deg_sampler.jl degrees.dat 2.5 10 2500 250000 1000`
 3. run `julia com_sampler.jl community_sizes.dat 1.5 50 2500 250000 1000`
 4. run `julia graph_sampler.jl network.dat community.dat degrees.dat community_sizes.dat 0.2 true true`

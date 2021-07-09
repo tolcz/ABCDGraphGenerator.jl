@@ -1,4 +1,4 @@
-using ABCDGraphGenerator
+using ABCDeGraphGenerator
 using Random
 
 @info "Usage: julia graph_sampler.jl networkfile communityfile degreefile communitysizesfile mu|xi fraction isCL islocal [seed]"
@@ -22,11 +22,11 @@ else
 end
 length(ARGS) == 9 &&  Random.seed!(parse(Int, ARGS[9]))
 
-p = ABCDGraphGenerator.ABCDParams(parse.(Int, readlines(degreefile)),
+p = ABCDeGraphGenerator.ABCDParams(parse.(Int, readlines(degreefile)),
                                   parse.(Int, readlines(communitysizesfile)),
                                   μ, ξ, isCL, islocal)
 
-edges, clusters = ABCDGraphGenerator.gen_graph(p)
+edges, clusters = ABCDeGraphGenerator.gen_graph(p)
 
 open(networkfile, "w") do io
     for (a, b) in sort!(collect(edges))

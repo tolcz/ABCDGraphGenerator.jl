@@ -1,25 +1,25 @@
-# ABCDGraphGenerator.jl
-Artificial Benchmark for Community Detection (ABCD) - A Fast Random Graph Model with Community Structure
+# ABCDeGraphGenerator.jl
+Multihreaded fork of [Artificial Benchmark for Community Detection (ABCD)](https://github.com/bkamins/ABCDGraphGenerator.jl) - A Fast Random Graph Model with Community Structure
 
 Bogumił Kamiński, Paweł Prałat, François Théberge, Tomasz Olczak
 
 ### Julia API
 
 The package does not export functions and types. The public API is the following:
-* `ABCDGraphGenerator.ABCDParams`: type holding information about sampled degrees,
+* `ABCDeGraphGenerator.ABCDParams`: type holding information about sampled degrees,
   sampled cluster sizes and required mode of ABCD graph generation
-* `ABCDGraphGenerator.gen_graph`: ABCD graph generator that uses `ABCDParams`
+* `ABCDeGraphGenerator.gen_graph`: ABCD graph generator that uses `ABCDParams`
   specification
-* `ABCDGraphGenerator.sample_degrees`: sample degrees of vertices following power law
-* `ABCDGraphGenerator.sample_communities`: sample community sizes following power law
-* `ABCDGraphGenerator.get_ev`: get expected value of truncated discrete power law distribution
-* `ABCDGraphGenerator.find_v_min`: find the lower truncation given expected value
+* `ABCDeGraphGenerator.sample_degrees`: sample degrees of vertices following power law
+* `ABCDeGraphGenerator.sample_communities`: sample community sizes following power law
+* `ABCDeGraphGenerator.get_ev`: get expected value of truncated discrete power law distribution
+* `ABCDeGraphGenerator.find_v_min`: find the lower truncation given expected value
   and upper truncation of truncated discrete power law distribution
 
 The resason for such split of the functionality is that generation of vertex degrees
 and community sizes is fast, while the generation of the final graph is the most expensive step.
 
-### Using ABCDGraphGenerator.jl from R and Python
+### Using ABCDeGraphGenerator.jl from R and Python
 
 The functions provided in the package can be directly called from R and Python.
 
@@ -65,7 +65,7 @@ networkfile = "edge.dat"      # name of file do generate that contains edges of 
 In this file all parameters required to generate an ABCD graph and store to on disk are passed.
 Here is an output from an example session using CLI in the ABCD-generation mode using the above file:
 ```
-$ julia [-t number_of_threads] abcd_sampler.jl example_config.toml
+$ julia [-t num_of_threads] abcd_sampler.jl example_config.toml
 [ Info: Usage: julia abcd_sampler.jl config_filename
 [ Info: For the syntax of config_filename see example_config.toml file
 [ Info: Expected value of degree: 8.327743727955891
@@ -79,17 +79,15 @@ are created in the working directory.
 `deg_sampler.jl`, `com_sampler.jl` and `graph_sampler.jl` files are provided
 mainly to facilitate comparisons with LFR algorithm.
 Here is an output from an example session using CLI in the LFR-comparison mode:
-```
+```bash
 $ julia install.jl
-  Updating registry at `~\.julia\registries\General`
-  Updating git-repo `https://github.com/JuliaRegistries/General.git`
-  Updating git-repo `https://github.com/bkamins/ABCDGraphGenerator.jl`
-  Updating git-repo `https://github.com/bkamins/ABCDGraphGenerator.jl`
- Resolving package versions...
-  Updating `~\.julia\environments\v1.3\Project.toml`
-  [4c9194b5] ~ ABCDGraphGenerator v0.1.0 #master (https://github.com/bkamins/ABCDGraphGenerator.jl)
-  Updating `~\.julia\environments\v1.3\Manifest.toml`
-  [4c9194b5] ~ ABCDGraphGenerator v0.1.0 #master (https://github.com/bkamins/ABCDGraphGenerator.jl)
+    Updating git-repo `https://github.com/tolcz/ABCDeGraphGenerator.jl`
+    Updating registry at `~/.julia/registries/General`
+   Resolving package versions...
+    Updating `~/.julia/environments/v1.6/Project.toml`
+  [4a2737bb] + ABCDeGraphGenerator v0.2.1 `https://github.com/tolcz/ABCDeGraphGenerator.jl#master`
+    Updating `~/.julia/environments/v1.6/Manifest.toml`
+  [4a2737bb] + ABCDeGraphGenerator v0.2.1 `https://github.com/tolcz/ABCDeGraphGenerator.jl#master`
 
 $ julia deg_sampler.jl degrees.dat 3 5 50 10000 1000 42
 [ Info: Usage: julia deg_sampler.jl filename τ₁ d_min d_max n max_iter [seed]
@@ -105,7 +103,7 @@ $ julia com_sampler.jl community_sizes.dat 2 50 1000 10000 1000 42
 $ shasum -a 256 community_sizes.dat #sha256sum community_sizes.dat on Linux
 d03bccc03937b620e6db4ba661781e49c1e40dcfb46c04355a9804edb49cfc86  community_sizes.dat
 
-$ julia graph_sampler.jl network.dat community.dat degrees.dat community_sizes.dat xi 0.2 true false 42
+$ julia [-t num_of_threads] graph_sampler.jl network.dat community.dat degrees.dat community_sizes.dat xi 0.2 true false 42
 [ Info: Usage: julia graph_sampler.jl networkfile communityfile degreefile communitysizesfile mu|xi fraction isCL islocal [seed]
 [ Info: Example: julia graph_sampler.jl network.dat community.dat degrees.dat community_sizes.dat xi 0.2 true false 42
 $ shasum -a 256 network.dat #sha256sum network.dat on Linux

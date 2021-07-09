@@ -1,4 +1,4 @@
-using ABCDGraphGenerator
+using ABCDeGraphGenerator
 using Random
 
 @info "Usage: julia com_sampler.jl filename τ₂ c_min c_max n max_iter [seed]"
@@ -12,8 +12,8 @@ n = parse(Int, ARGS[5])
 max_iter = parse(Int, ARGS[6])
 length(ARGS) == 7 && Random.seed!(parse(Int, ARGS[7]))
 
-@info "Expected value of community size: $(ABCDGraphGenerator.get_ev(τ₂, c_min, c_max))"
+@info "Expected value of community size: $(ABCDeGraphGenerator.get_ev(τ₂, c_min, c_max))"
 
-coms = ABCDGraphGenerator.sample_communities(τ₂, c_min, c_max, n, max_iter)
+coms = ABCDeGraphGenerator.sample_communities(τ₂, c_min, c_max, n, max_iter)
 
 open(io -> foreach(d -> println(io, d), coms), filename, "w")
