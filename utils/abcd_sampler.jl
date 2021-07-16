@@ -38,6 +38,17 @@ islocal = haskey(conf, "islocal") ? parse(Bool, conf["islocal"]) : false
 
 p = ABCDeGraphGenerator.ABCDParams(degs, coms, μ, ξ, isCL, islocal)
 edges, clusters = ABCDeGraphGenerator.gen_graph(p)
+# uncomment to assert validity of configuration model output
+# if !isCL
+#     @info "assertion #1: length of edges is $(length(edges)), sum of degrees is $(sum(degs))"
+#     @assert length(edges) == sum(degs)/2
+#     @info "assertion #2: counting degrees"
+#     degcounter = zeros(Int32, length(degs))
+#     for e in edges
+#         addcounts!(degcounter, [e...], 1:length(degs))
+#     end
+#     @assert degcounter == degs
+# end
 open(conf["networkfile"], "w") do io
     for (a, b) in sort!(collect(edges))
         println(io, a, "\t", b)
